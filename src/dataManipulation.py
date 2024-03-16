@@ -1,17 +1,17 @@
 import DataTypes as DT
 
 class dataManipulation:
-    def altitudeManipulation(planes: list[DT.Plane], altitude: float, changeRate: float):
+    def altitudeManipulation(planes: list[DT.Plane], changeRate: float):
         for i in range(len(planes)):
-            planes[i].altitude = planes[i].altitude * changeRate
+            planes[i].geo_altitude = planes[i].geo_altitude * changeRate / 100
         return planes
     
-    def longtitudeManipulation(planes: list[DT.Plane], longtitude: float, changeRate: float):
+    def longtitudeManipulation(planes: list[DT.Plane], changeRate: float):
         for i in range(len(planes)):
-            planes[i].longtitude = planes[i].longtitude * changeRate
+            planes[i].longtitude = planes[i].longtitude * changeRate / 100
         return planes
     
-    def heightManipulation(planes: list[DT.Plane], height: float, changeRate: float):
+    def latitudeManipulation(planes: list[DT.Plane], changeRate: float):
         for i in range(len(planes)):
-            planes[i].height = planes[i].height * changeRate
+            planes[i].latitude = planes[i].latitude * changeRate / 100
         return planes
