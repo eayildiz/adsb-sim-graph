@@ -1,10 +1,11 @@
 import string
 
 class Plane:
-    def __init__(self, altitude: float, longtitude: float, height: float):
-        self.altitude = altitude
+    def __init__(self, plane_code: string, latitude: float, longtitude: float, geo_altitude: float):
+        self.plane_code = plane_code
+        self.latitude = latitude
         self.longtitude = longtitude
-        self.height = height
+        self.geo_altitude = geo_altitude
 
     def GetJson(self):
         #Creat json from plane obj.
