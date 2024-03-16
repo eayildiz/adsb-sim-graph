@@ -1,8 +1,12 @@
 import DataManipulation
 import FlightFetcher
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
+
+@app.get("/adsb-sim")
+def homepage():
+    return render_template("home.html")
 
 @app.post("/adsb-sim")
 def simulateDataManipulation():
