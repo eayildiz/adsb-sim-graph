@@ -3,8 +3,9 @@ import DataTypes as DT
 # changes position by the specified rate
 def altitudeManipulation(planes: list[DT.Plane], changeRate: float):
     for i in range(len(planes)):
-        planes[i].geo_altitude += planes[i].geo_altitude * changeRate / 100
-        planes[i].validateFlight()
+        if (planes[i].geo_altitude is not None):
+            planes[i].geo_altitude += planes[i].geo_altitude * changeRate / 100
+            planes[i].validateFlight()
     
 def longitudeManipulation(planes: list[DT.Plane], changeRate: float):
     for i in range(len(planes)):
