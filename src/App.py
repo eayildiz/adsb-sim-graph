@@ -1,14 +1,14 @@
 import DataManipulation
 import FlightFetcher
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
 
-@app.get("/adsb-sim")
+@app.get("/")
 def homepage():
     return render_template("home.html")
 
-@app.post("/adsb-sim")
+@app.post("/")
 def simulateDataManipulation():
     type = request.args.get("type")
     lat_r = request.args.get("latm")
@@ -18,10 +18,19 @@ def simulateDataManipulation():
         icao = request.args.get("icao")
         flightData = []
         flights = FlightFetcher.getFlightByAddress(icao)
+        if not flights:
+            response = jsonify({'error: No such flight(s) found.'})
+            response.status_code = 400
+            return response
         flightData.append(flights.copy())
-        manipulateFlight(flights, lat_r, lng_r, ht_r)
-        flightData.append(flights)
-        return flights
+        try: 
+            manipulateFlight(flights, lat_r, lng_r, ht_r)
+            flightData.append(flights)
+            return flights
+        except ValueError:
+            response = jsonify(['error: Invalid range.'])
+            response.status_code = 400
+            return response
     elif (type == 1):
         min_lat = request.args.get("latb")
         max_lat = request.args.get("late")
@@ -29,21 +38,22 @@ def simulateDataManipulation():
         max_lng = request.args("lnge")
         flightData = []
         flights = FlightFetcher.getFlightsByBounds(min_lng, max_lng, min_lat, max_lat)
+        if not flights:
+            response = jsonify({'error: No such flight(s) found.'})
+            response.status_code = 400
+            return response
         flightData.append(flights.copy())
-        manipulateFlight(flights, lat_r, lng_r, ht_r)
-        flightData.append(flights)
-        return flights
+        try: 
+            manipulateFlight(flights, lat_r, lng_r, ht_r)
+            flightData.append(flights)
+            return flights
+        except ValueError:
+            response = jsonify(['error: Invalid range.'])
+            response.status_code = 400
+            return response
 
 def manipulateFlight(flights, latitudeRate, longitudeRate, heightRate):
     DataManipulation.changeData(flights, latitudeRate, longitudeRate, heightRate)
-
-def main():
-    #Create build classes for every component.
-    #Create connection to API
-    #load data
-    #load UI
-    #Create socket
-    pass
-
+    
 if(__name__ == "__main__"):
-    main()
+    homepage()
