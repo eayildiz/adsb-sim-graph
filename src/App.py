@@ -30,7 +30,9 @@ def simulateDataManipulation():
         try: 
             manipulateFlight(flights, lat_r, lng_r, ht_r)
             flightData.append(flights)
-            return flights
+            response = jsonify({'flights': flights})
+            response.status_code = 200
+            return response
         # return bad request if positions are invalid
         except ValueError:
             response = jsonify(['error: Invalid range.'])
@@ -52,7 +54,9 @@ def simulateDataManipulation():
         try: 
             manipulateFlight(flights, lat_r, lng_r, ht_r)
             flightData.append(flights)
-            return flights
+            response = jsonify({'flights': flights})
+            response.status_code = 200
+            return response
         except ValueError:
             response = jsonify(['error: Invalid range.'])
             response.status_code = 400
