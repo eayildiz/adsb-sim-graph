@@ -20,5 +20,5 @@ class Plane:
                 raise ValueError("Invalid range.")
             if (self.longitude > 180 or self.longitude < -180):
                 raise ValueError("Invalid range.")
-            if (self.geo_altitude < 0):
+            if (self.geo_altitude is not None and self.geo_altitude < 0):
                 raise ValueError("Invalid range.")
