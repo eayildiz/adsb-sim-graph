@@ -6,11 +6,19 @@ class Plane:
         self.longitude = longitude
         self.geo_altitude = geo_altitude
 
+    def __json__(self):
+        return {
+            'callsign': self.plane_code,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'geo_altitude': self.geo_altitude
+        }    
+
 # validation to see if positions hold true after manipulation  
     def validateFlight(self):
-            if (self.latitude > 90 or self.latitude > -90):
-                return ValueError
+            if (self.latitude > 90 or self.latitude < -90):
+                raise ValueError("Invalid range.")
             if (self.longitude > 180 or self.longitude < -180):
-                return ValueError
+                raise ValueError("Invalid range.")
             if (self.geo_altitude < 0):
-                return ValueError
+                raise ValueError("Invalid range.")

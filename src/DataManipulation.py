@@ -23,4 +23,4 @@ def changeData(planes: list[DT.Plane], changeRate1, changeRate2, changeRate3):
     if(changeRate2 != 0):
         planes = latitudeManipulation(planes, changeRate2)
     if(changeRate3 != 0):
-        planes = altitudeManipulation(planes, changeRate3)
+        planes = longitudeManipulation(planes, changeRate3)
