@@ -39,6 +39,11 @@ def simulateDataManipulation():
             response = jsonify({'error': 'Invalid range.'})
             response.status_code = 400
             return response
+        # return bad request if positions list is of NoneType
+        except TypeError:
+            response = jsonify({'error': 'Flight data does not exist.'})
+            response.status_code = 400
+            return response
     elif (type == 1):
         # receive positions through query parameters
         lat = float(request.args.get("lat"))

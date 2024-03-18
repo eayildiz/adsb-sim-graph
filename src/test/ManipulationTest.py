@@ -15,6 +15,12 @@ class LongitudeManipulationTest:
             rate = 10
             longitudeManipulation(planes, rate)
 
+    def planes_are_empty(self):
+        planes = []
+        rate = 5
+        longitudeManipulation(planes, rate)
+        assert len(planes) == 0
+
 class LatitudeManipulationTest:
     def always_manipulates_correctly(self):
         planes = [Plane(plane_code="abc123", latitude="50")]
@@ -28,3 +34,8 @@ class LatitudeManipulationTest:
             rate = 10
             latitudeManipulation(planes, rate)
 
+    def planes_are_empty(self):
+        planes = []
+        rate = 5
+        latitudeManipulation(planes, rate)
+        assert len(planes) == 0        
