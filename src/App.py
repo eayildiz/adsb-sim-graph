@@ -42,12 +42,11 @@ def simulateDataManipulation():
             return response
     elif (type == 1):
         # receive positions through query parameters
-        min_lat = float(request.args.get("latb"))
-        max_lat = float(request.args.get("late"))
-        min_lng = float(request.args.get("lngb"))
-        max_lng = float(request.args.get("lnge"))
+        lat = float(request.args.get("lat"))
+        lon = float(request.args.get("lon"))
+        rad = float(request.args.get("rad"))
         flightData = []
-        flights = FlightFetcher.getFlightsByBounds(min_lng, max_lng, min_lat, max_lat)
+        flights = FlightFetcher.getFlightsByBounds(lat, lon, rad)
         if not flights:
             response = jsonify({'error': 'No such flight(s) found.'})
             response.status_code = 400

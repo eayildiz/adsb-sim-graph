@@ -1,27 +1,25 @@
-from opensky_api import OpenSkyApi
 from DataTypes import Plane
-
-api = OpenSkyApi()
+import requests
 
 # returns flights in the bounds specified in a list, None if nothing is found
-def getFlightsByBounds(longitude_begin: int, longitude_end: int, latitude_begin: int, latitude_end: int):
+def getFlightsByBounds(latitude: float, longitude: float, radius: float):
     flights = []
-    coordinates = api.get_states(bbox=(latitude_begin, latitude_end, longitude_begin, longitude_end))
-    if (coordinates == None):
+    aircrafts = requests.get('https://opendata.adsb.fi/api/v2/lat/' + str(latitude) + '/lon/' + str(longitude) + '/dist/' + str(radius)).json()['aircraft']
+    if (aircrafts is None):
         return flights
-    for vector in coordinates.states:
-        if (vector.latitude is not None and vector.longitude is not None):
-            flight = Plane(vector.icao24, vector.latitude, vector.longitude, vector.geo_altitude)
+    for aircraft in aircrafts:
+        if (aircraft['alt_baro'] != "ground" and 'lat' in aircraft and 'lon' in aircraft and 'alt_geom' in aircraft):
+            flight = Plane(aircraft['hex'], aircraft['lat'], aircraft['lon'], aircraft['alt_geom'])
             flights.append(flight)
     return flights
 
 # returns the flight with the ICAO address specified in a list, None if nothing is found
 def getFlightByAddress(icaoAddress: str):
     flights = []
-    coordinates = api.get_states(icao24=icaoAddress)
-    if (coordinates == None):
+    aircraft = requests.get('https://opendata.adsb.fi/api/v2/icao/' + icaoAddress).json()['ac']
+    if (aircraft is None):
         return flights
-    for vector in coordinates.states:
-        flight = Plane(vector.icao24, vector.latitude, vector.longitude, vector.geo_altitude)
+    if (aircraft[0]['alt_baro'] != "ground" and aircraft[0]['lat'] and aircraft[0]['lon'] and 'alt_geom' in aircraft[0]):
+        flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'], aircraft[0]['alt_geom'])
         flights.append(flight)
     return flights

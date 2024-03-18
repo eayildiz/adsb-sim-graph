@@ -8,7 +8,7 @@ class Plane:
 
     def __json__(self):
         return {
-            'callsign': self.plane_code,
+            'icao': self.plane_code,
             'latitude': self.latitude,
             'longitude': self.longitude,
             'geo_altitude': self.geo_altitude
