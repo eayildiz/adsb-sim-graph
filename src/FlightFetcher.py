@@ -19,7 +19,7 @@ def getFlightByAddress(icaoAddress: str):
     aircraft = requests.get('https://opendata.adsb.fi/api/v2/icao/' + icaoAddress).json()['ac']
     if (aircraft is None):
         return flights
-    if (aircraft[0]['alt_baro'] != "ground" and aircraft[0]['lat'] and aircraft[0]['lon'] and 'alt_geom' in aircraft[0]):
+    if (aircraft[0]['alt_baro'] != "ground" and 'lat' in aircraft[0] and 'lon' in aircraft[0] and 'alt_geom' in aircraft[0]):
         flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'], aircraft[0]['alt_geom'])
         flights.append(flight)
     return flights
