@@ -14,7 +14,5 @@ def latitudeManipulation(planes: list[DT.Plane], changeRate: float):
 
 # wrapper for manipulation methods to be used at once    
 def changeData(planes: list[DT.Plane], latRate, lonRate):
-    if(latRate != 0):
-        planes = latitudeManipulation(planes, latRate)
-    if(lonRate != 0):
-        planes = longitudeManipulation(planes, lonRate)
+    latitudeManipulation(planes, latRate)
+    longitudeManipulation(planes, lonRate)

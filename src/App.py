@@ -27,7 +27,7 @@ def simulateDataManipulation():
             return response
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
         flightData.append(serialized_flights_og)
-        try: 
+        try:
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData.append(serialized_flights_new)
@@ -37,11 +37,6 @@ def simulateDataManipulation():
         # return bad request if positions are invalid
         except ValueError:
             response = jsonify({'error': 'Invalid range.'})
-            response.status_code = 400
-            return response
-        # return bad request if positions list is of NoneType
-        except TypeError:
-            response = jsonify({'error': 'Flight data does not exist.'})
             response.status_code = 400
             return response
     elif (type == 1):
