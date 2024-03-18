@@ -1,13 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Button, Radio, Input } from 'antd';
+import { Button } from 'antd';
 import SimulationPage from './SimulationPage';
-import type { RadioChangeEvent } from 'antd';
 import '../styles/App.css';
 
 
 function App() {
   const [disabled, setDisabled] = useState(false)
-  const [preSettingsValue, setPreSettingsValue] = useState(1)
+  const [preSettingsValue, setPreSettingsValue] = useState(0)
   const [data, setData] = useState([{}])
   const [preSettingsText, setPreSettingsText] = useState("Revert Pre Settings")
   const [currentPage, setCurrentPage] = useState(0)
@@ -18,7 +17,7 @@ function App() {
     setDisabled(!disabled)
   }
 
-  const changeSettings = (e: RadioChangeEvent) => {
+  const changeSettings = (e) => {
     setPreSettingsValue(e.target.value)
   }
 
@@ -30,6 +29,7 @@ function App() {
     setCurrentPage(v)
   }
 
+
   return (
     <div className="App">
       <div className="HeaderContainer">
@@ -40,9 +40,12 @@ function App() {
       </div>
 
       <div className="ContentContainer">
-        {currentPage === 0 ? <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
+        {currentPage === 0 ? 
+        <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
         toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText}
-        /> : <div style={{color:'black'}}> helo </div>}
+        /> : 
+        <div style={{color:'black'}}> helo </div>
+        }
       </div>
     </div>
   );
