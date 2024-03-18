@@ -29,7 +29,7 @@ def simulateDataManipulation():
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
         flightData.append(serialized_flights_og)
         try: 
-            manipulateFlight(flights, lat_r, lng_r, ht_r)
+            manipulateFlight(flights, ht_r, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData.append(serialized_flights_new)
             response = jsonify({'flights': flightData})
