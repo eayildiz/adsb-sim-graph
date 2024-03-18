@@ -22,7 +22,7 @@ def simulateDataManipulation():
         flightData = []
         flights = FlightFetcher.getFlightByAddress(icao)
         # return bad request if nothing is found
-        if not flights:
+        if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
             response.status_code = 400
             return response
@@ -47,7 +47,7 @@ def simulateDataManipulation():
         rad = float(request.args.get("rad"))
         flightData = []
         flights = FlightFetcher.getFlightsByBounds(lat, lon, rad)
-        if not flights:
+        if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
             response.status_code = 400
             return response

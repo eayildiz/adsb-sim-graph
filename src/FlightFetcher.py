@@ -5,7 +5,7 @@ import requests
 def getFlightsByBounds(latitude: float, longitude: float, radius: float):
     flights = []
     aircrafts = requests.get('https://opendata.adsb.fi/api/v2/lat/' + str(latitude) + '/lon/' + str(longitude) + '/dist/' + str(radius)).json()['aircraft']
-    if (aircrafts is None):
+    if (len(aircrafts) == 0):
         return flights
     for aircraft in aircrafts:
         if (aircraft['alt_baro'] != "ground" and 'lat' in aircraft and 'lon' in aircraft and 'alt_geom' in aircraft):
@@ -17,7 +17,7 @@ def getFlightsByBounds(latitude: float, longitude: float, radius: float):
 def getFlightByAddress(icaoAddress: str):
     flights = []
     aircraft = requests.get('https://opendata.adsb.fi/api/v2/icao/' + icaoAddress).json()['ac']
-    if (aircraft is None):
+    if (len(aircraft) == 0):
         return flights
     if (aircraft[0]['alt_baro'] != "ground" and 'lat' in aircraft[0] and 'lon' in aircraft[0] and 'alt_geom' in aircraft[0]):
         flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'], aircraft[0]['alt_geom'])
