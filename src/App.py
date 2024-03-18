@@ -14,7 +14,6 @@ def simulateDataManipulation():
     type = int(request.args.get("type"))
     lat_r = float(request.args.get("latr"))
     lng_r = float(request.args.get("lngr"))
-    ht_r  = float(request.args.get("htr"))
     # filter type: 0 is by ICAO address, 1 is by range
     if (type == 0):
         # receive icao address through query parameter
@@ -29,7 +28,7 @@ def simulateDataManipulation():
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
         flightData.append(serialized_flights_og)
         try: 
-            manipulateFlight(flights, ht_r, lat_r, lng_r)
+            manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData.append(serialized_flights_new)
             response = jsonify({'flights': flightData})
@@ -54,7 +53,7 @@ def simulateDataManipulation():
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
         flightData.append(serialized_flights_og)
         try: 
-            manipulateFlight(flights, ht_r, lat_r, lng_r)
+            manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData.append(serialized_flights_new)
             response = jsonify({'flights': flightData})
@@ -65,8 +64,8 @@ def simulateDataManipulation():
             response.status_code = 400
             return response
 
-def manipulateFlight(flights, latitudeRate, longitudeRate, heightRate):
-    DataManipulation.changeData(flights, latitudeRate, longitudeRate, heightRate)
+def manipulateFlight(flights, latitudeRate, longitudeRate):
+    DataManipulation.changeData(flights, latitudeRate, longitudeRate)
     
 if(__name__ == "__main__"):
     homepage()
