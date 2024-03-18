@@ -4,8 +4,8 @@ import requests
 # returns flights in the bounds specified in a list, None if nothing is found
 def getFlightsByBounds(latitude: float, longitude: float, radius: float):
     flights = []
-    aircrafts = requests.get('https://opendata.adsb.fi/api/v2/lat/' + str(latitude) + '/lon/' + str(longitude) + '/dist/' + str(radius)).json()['aircraft']
     try:
+        aircrafts = requests.get('https://opendata.adsb.fi/api/v2/lat/' + str(latitude) + '/lon/' + str(longitude) + '/dist/' + str(radius)).json()['aircraft']
         if (len(aircrafts) == 0):
             return flights
         for aircraft in aircrafts:
