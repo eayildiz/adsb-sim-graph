@@ -21,11 +21,11 @@ def getFlightsByBounds(latitude: float, longitude: float, radius: float):
 def getFlightByAddress(icaoAddress: str):
     flights = []
     try:
-        aircraft = requests.get('https://opendata.adsb.fi/api/v2/icao/' + icaoAddress).json()
+        aircraft = requests.get('https://opendata.adsb.fi/api/v2/icao/' + icaoAddress).json()['ac']
         if (len(aircraft) == 0):
             return flights
-        if ('lat' in aircraft['ac'][0] and 'lon' in aircraft['ac'][0]):
-            flight = Plane(aircraft['ac'][0]['hex'], aircraft['ac'][0]['lat'], aircraft['ac'][0]['lon'])
+        if ('lat' in aircraft[0] and 'lon' in aircraft[0]):
+            flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'])
             flights.append(flight)
         return flights
     except requests.exceptions.JSONDecodeError:
