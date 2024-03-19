@@ -3,11 +3,9 @@
   background-color: #3f3f3f;
   height: 100vh;
   width: 100vw;
-
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-
   justify-content: center;
   align-items: center;
 
@@ -44,7 +42,6 @@
   width: 20%;
   transition: background-color 0.2s;
 }
-
 .CustomButton:hover {
   background-color: #1677ff;
 }
@@ -75,7 +72,6 @@
 .MapBorder {
   display: flex;
   background-color: #282828;
-
   height: 90%;
   width: 90%;
   justify-content: center;
@@ -106,7 +102,6 @@
   background-color: #282828;
   border-radius: 15px;
 }
-
 
 .ModificationSettings {
   background-color: #575757;
@@ -164,17 +159,6 @@
 
 }
 
-.RowContainer{
-  display: flex;
-  flex-direction: row;
-  background-color: #282828;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 95%;
-  height: 45%;
-  border-radius: 15px;
-}
-
 .GraphCardBorder{
   display: flex;
   justify-content: center;
@@ -182,5 +166,24 @@
   background-color: #282828;
   height: 95%;
   width: 45%;
+  border-radius: 25px;
+}
+
+.AboutUsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.AboutUsCard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #282828;
+  width: 80%;
+  height: 60%;
   border-radius: 25px;
 }

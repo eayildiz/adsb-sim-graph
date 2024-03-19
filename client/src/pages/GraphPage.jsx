@@ -32,7 +32,7 @@ const GraphPage = ({data}) => {
                   top: 20, 
                   right: 40, 
                   bottom: 40, 
-                  left: 20, // Increased right and bottom margins
+                  left: 20,
                 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />

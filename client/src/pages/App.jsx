@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { Button } from 'antd';
+import React, {useState} from 'react';
 import SimulationPage from './SimulationPage';
-import '../styles/App.css';
 import GraphPage from './GraphPage';
+import GithubLogo from '../github-mark-white.svg';
 
+import '../styles/App.css';
 
 function App() {
   const [disabled, setDisabled] = useState(false)
@@ -41,15 +41,18 @@ function App() {
         <div className='HeaderList'>
           <div className="CustomButton" onClick={() => changeCurrentPage(0)}>Simulation</div>
           <div className="CustomButton" onClick={() => changeCurrentPage(1)}>Graph</div>
+          <div className="CustomButton" onClick={() => {
+            window.open('https://github.com/TOBB-ETU-BIL481-SPRING-24/CyberCoders', '_blank');
+          }}>
+            <img src={GithubLogo} style={{width:"30%"}}/>
+          </div>
         </div>
       </div>
 
       <div className="ContentContainer">
-        {currentPage === 0 ? 
-        <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
+        {currentPage === 0 ? <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
         toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText} handleData={handleData}
-        /> : 
-        <GraphPage data={data}/>
+        /> : <GraphPage data={data}/>
         }
       </div>
     </div>
