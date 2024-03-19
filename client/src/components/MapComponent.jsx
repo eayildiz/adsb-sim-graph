@@ -2,11 +2,11 @@ import axios from "axios";
 import maplibregl from 'maplibre-gl';
 import React, {useState, useEffect, useRef} from 'react';
 
-const MapComponent = ({opcode ,baseRange, baseLat, baseLong, rangeSlide, latSlide, longSlide, startSim, flightName}) => {
+const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide, startSim, flightName, handleData}) => {
     const mapContainer = useRef(null);
     
     const [mapInstance, setMapInstance] = useState(null)
-
+    const [entered, setEntered] = useState(false)
     const [features,setFeatures] = useState([])
     const [viewState, setViewState] = useState({
         center: [0, 0],
@@ -75,7 +75,7 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, rangeSlide, latSlid
                             };
                         });
                     });
-                    
+                    setEntered(true)
                     updateFeatures(geojsonFeatures);
                 } catch (err) {
                     //console.error("Error While Getting Data", err);
@@ -101,7 +101,7 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, rangeSlide, latSlid
                             };
                         });
                     });
-                    
+                    setEntered(true)
                     updateFeatures(geojsonFeatures);
                 } catch (err) {
                     console.error("Error While Getting Data", err);
@@ -111,6 +111,11 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, rangeSlide, latSlid
 
         fetchData()
         const interval = setInterval(fetchData, 8000)
+
+        if(!startSim && entered){
+            clearInterval(interval)
+            setEntered(false)
+        }
 
         return (() => {
             clearInterval(interval)})
@@ -123,12 +128,14 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, rangeSlide, latSlid
 
         if (!mapInstance.getSource('dynamic-data')) {
             addSourceAndLayer()
+            handleData(features)
         } else {
             console.log(features)
             mapInstance.getSource('dynamic-data').setData({
                 type: 'FeatureCollection',
                 features: features
             });
+            handleData(features)
         }
     }, [features]);
 

@@ -4,9 +4,8 @@ import MapComponent from '../components/MapComponent';
 import ModificationComponent from '../components/ModificationComponent';
 
 
-const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisabled, changePreSettingsText, currentString}) => {
+const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisabled, changePreSettingsText, currentString, handleData}) => {
     
-    const [rangeSliderValue, setRangeSliderValue] = useState(0)
     const [latitudeRangeSlider, setLatitudeRangeSlider] = useState(0)
     const [longitudeSliderValue, setLongitudeSliderValue] = useState(0)
 
@@ -42,13 +41,6 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
       }
     }
 
-    const handleRangeSlider = (e) => { 
-      const value = parseFloat(e.target.value);
-      if (!isNaN(value)){ 
-        setRangeSliderValue(value)
-      }
-    }
-
     const handleLatSlider = (e) => { 
       const value = parseFloat(e.target.value);
       if (!isNaN(value)){ 
@@ -64,7 +56,6 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
     }
 
     const handleFlightName = (e) => {
-      console.log(e.target.value)
       setFlightName(e.target.value)
     }
 
@@ -73,7 +64,6 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
     }
 
     const isFinished = () => {
-      console.log(startSim)
       setStartSim(false)
     }
 
@@ -82,14 +72,15 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
             <ModificationComponent disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
                 toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText}
                 handleOpcode={handleOpcode} handleBaseRange={handleBaseRange} handleBaseLat={handleBaseLatitude} handleBaseLong={handleBaseLongitude}
-                handleRangeSlider={handleRangeSlider} handleLatSlider={handleLatSlider} handleLongSlider={handleLongSlider} 
+                handleLatSlider={handleLatSlider} handleLongSlider={handleLongSlider} 
                 startSim={startSim} isStarted={isStarted} isFinished={isFinished} handleFlightName={handleFlightName}
             />
 
             <div className="MapContainer">
               <div className="MapBorder">
                 <MapComponent baseRange={baseRange} baseLat={baseLatitude} flightName={flightName} startSim={startSim}
-                baseLong={baseLongitude} opcode={opcode} rangeSlide={rangeSliderValue} latSlide={latitudeRangeSlider} longSlide={longitudeSliderValue}/>
+                baseLong={baseLongitude} opcode={opcode} 
+                latSlide={latitudeRangeSlider} longSlide={longitudeSliderValue} handleData={handleData}/>
               </div>
             </div>
         </div>

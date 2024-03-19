@@ -2,12 +2,13 @@ import React, {useState, useEffect, useRef} from 'react';
 import { Button } from 'antd';
 import SimulationPage from './SimulationPage';
 import '../styles/App.css';
+import GraphPage from './GraphPage';
 
 
 function App() {
   const [disabled, setDisabled] = useState(false)
   const [preSettingsValue, setPreSettingsValue] = useState(0)
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
   const [preSettingsText, setPreSettingsText] = useState("Revert Pre Settings")
   const [currentPage, setCurrentPage] = useState(0)
 
@@ -29,6 +30,10 @@ function App() {
     setCurrentPage(v)
   }
 
+  const handleData = (e) => {
+    setData(e);
+  }
+
 
   return (
     <div className="App">
@@ -42,9 +47,9 @@ function App() {
       <div className="ContentContainer">
         {currentPage === 0 ? 
         <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
-        toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText}
+        toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText} handleData={handleData}
         /> : 
-        <div style={{color:'black'}}> helo </div>
+        <GraphPage data={data}/>
         }
       </div>
     </div>

@@ -5,7 +5,7 @@ import SliderComponent from './SliderComponent';
 
 const ModificationComponent = ({changeSettings, preSettingsValue, disabled, 
   toggleDisabled, changePreSettingsText, currentString, handleOpcode, 
-  handleBaseRange, handleBaseLat, handleBaseLong, handleRangeSlider, 
+  handleBaseRange, handleBaseLat, handleBaseLong, 
   handleLongSlider, handleLatSlider, isStarted, startSim, isFinished, handleFlightName}) => {
     return(
         <div className='ModificationContainer'>
@@ -37,8 +37,7 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                       
               </div>
               <div className='ModifyBy'>
-                <SliderComponent disabled={!disabled} 
-                handleRangeSlider={handleRangeSlider} 
+                <SliderComponent disabled={!disabled}  
                 handleLatSlider={handleLatSlider} 
                 handleLongSlider={handleLongSlider}
                 startSim={startSim}
