@@ -39,8 +39,8 @@ function App() {
     <div className="App">
       <div className="HeaderContainer">
         <div className='HeaderList'>
-          <Button type='primary' onClick={() => changeCurrentPage(0)}>Simulation</Button>
-          <Button type='primary' onClick={() => changeCurrentPage(1)}>Graph</Button>
+          <div className="CustomButton" onClick={() => changeCurrentPage(0)}>Simulation</div>
+          <div className="CustomButton" onClick={() => changeCurrentPage(1)}>Graph</div>
         </div>
       </div>
 

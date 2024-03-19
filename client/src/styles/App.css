@@ -1,6 +1,6 @@
 .App {
-  background-color: #121212;
   background-size: cover;
+  background-color: #3f3f3f;
   height: 100vh;
   width: 100vw;
 
@@ -17,23 +17,38 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  background-color: #1d1d1d;
   width: 100vw;
   height: 10vh;
 }
 
 .HeaderList {
-  background-color: #282828;
   display: flex;
   flex-wrap: wrap;
-  height: 80%;
-  width: 15%;
+  height: 100%;
+  width: 30%;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
-  margin-top: 1%;
-  margin-left: 2%;
   border-radius: 15px;
+  margin-left: 2%;
 }
+
+
+.CustomButton {
+  display: flex;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  height: 100%;
+  width: 20%;
+  transition: background-color 0.2s;
+}
+
+.CustomButton:hover {
+  background-color: #1677ff;
+}
+
 
 .ContentContainer {
   display: flex;

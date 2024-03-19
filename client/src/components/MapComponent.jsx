@@ -31,14 +31,13 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
           type: 'circle',
           source: 'dynamic-data',
           paint: {
-            'circle-color': 'red',
+            'circle-color': '#1677ff',
             'circle-radius': 6,
             'circle-opacity': 0.8,
           }
         });
       }
       
-
     useEffect( () => {
         const map = new maplibregl.Map({
             container: mapContainer.current,
@@ -104,7 +103,7 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
                     setEntered(true)
                     updateFeatures(geojsonFeatures);
                 } catch (err) {
-                    console.error("Error While Getting Data", err);
+                    //console.error("Error While Getting Data", err);
                 }
             }
         };

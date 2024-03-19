@@ -21,8 +21,8 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 : 
                   <div className="RangeInputs">
                     <Input placeholder="Range in Nautical Mile (max 250)" disabled={disabled} onChange={handleBaseRange}/>
-                    <Input placeholder="Longitude" disabled={disabled} onChange={handleBaseLong} style={{marginTop: "4px"}}/>
                     <Input placeholder="Latitude" disabled={disabled} onChange={handleBaseLat} style={{marginTop: "4px"}}/>
+                    <Input placeholder="Longitude" disabled={disabled} onChange={handleBaseLong} style={{marginTop: "4px"}}/>
                   </div>
                 }
         
