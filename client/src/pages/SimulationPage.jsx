@@ -73,6 +73,7 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
     }
 
     const isFinished = () => {
+      console.log(startSim)
       setStartSim(false)
     }
 
