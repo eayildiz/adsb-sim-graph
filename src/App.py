@@ -45,6 +45,7 @@ def simulateDataManipulation():
         lat = float(request.args.get("lat"))
         lon = float(request.args.get("lon"))
         rad = float(request.args.get("rad"))
+        liveFlightData = [[], []]
         flights = FlightFetcher.getFlightsByBounds(lat, lon, rad)
         if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
@@ -52,11 +53,13 @@ def simulateDataManipulation():
             return response
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
         flightData[0].append(serialized_flights_og)
-        try: 
+        liveFlightData[0].append(serialized_flights_og)
+        try:
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData[1].append(serialized_flights_new)
-            response = jsonify({'flights': flightData})
+            liveFlightData[1].append(serialized_flights_new)
+            response = jsonify({'flights': flightData, 'live': liveFlightData})
             response.status_code = 200
             return response
         except ValueError:
