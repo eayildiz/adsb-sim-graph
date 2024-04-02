@@ -10,10 +10,11 @@ const SliderComponent = ({disabled, handleLongSlider, handleLatSlider, startSim}
               <p>Latitude</p>
               <Slider aria-label="Default" 
               valueLabelDisplay="auto"
+              valueLabelFormat={(value) => `${value}%`}
               defaultValue={0} 
-              max={10}
-              min={-10}  
-              step={0.1}
+              max={1}
+              min={-1}  
+              step={0.01}
               disabled={disabled} 
               onChange={handleLatSlider}
               style={{width:"80%"}}/>
@@ -23,10 +24,11 @@ const SliderComponent = ({disabled, handleLongSlider, handleLatSlider, startSim}
               <p>Longitude</p>
               <Slider aria-label="Default" 
               valueLabelDisplay="auto"
+              valueLabelFormat={(value) => `${value}%`}
               defaultValue={0} 
-              min={-10} 
-              max={10} 
-              step={0.1}
+              min={-1} 
+              max={1} 
+              step={0.01}
               disabled={disabled}
               onChange={handleLongSlider} 
               style={{width:"80%"}}/>
