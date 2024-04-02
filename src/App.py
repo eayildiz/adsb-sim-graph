@@ -3,6 +3,7 @@ import FlightFetcher
 from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
+flightData = [[], []]
 
 @app.get("/")
 def homepage():
@@ -10,6 +11,7 @@ def homepage():
 
 @app.post("/")
 def simulateDataManipulation():
+    global flightData
     # global parameters obtained through query parameters
     type = int(request.args.get("type"))
     lat_r = float(request.args.get("latr"))
@@ -18,7 +20,6 @@ def simulateDataManipulation():
     if (type == 0):
         # receive icao address through query parameter
         icao = request.args.get("icao")
-        flightData = []
         flights = FlightFetcher.getFlightByAddress(icao)
         # return bad request if nothing is found
         if len(flights) == 0:
@@ -26,11 +27,11 @@ def simulateDataManipulation():
             response.status_code = 400
             return response
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
-        flightData.append(serialized_flights_og)
+        flightData[0].append(serialized_flights_og)
         try:
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
-            flightData.append(serialized_flights_new)
+            flightData[1].append(serialized_flights_new)
             response = jsonify({'flights': flightData})
             response.status_code = 200
             return response
@@ -44,18 +45,17 @@ def simulateDataManipulation():
         lat = float(request.args.get("lat"))
         lon = float(request.args.get("lon"))
         rad = float(request.args.get("rad"))
-        flightData = []
         flights = FlightFetcher.getFlightsByBounds(lat, lon, rad)
         if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
             response.status_code = 400
             return response
         serialized_flights_og = [flight.__json__() for flight in flights.copy()]
-        flightData.append(serialized_flights_og)
+        flightData[0].append(serialized_flights_og)
         try: 
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
-            flightData.append(serialized_flights_new)
+            flightData[1].append(serialized_flights_new)
             response = jsonify({'flights': flightData})
             response.status_code = 200
             return response
@@ -63,6 +63,14 @@ def simulateDataManipulation():
             response = jsonify({'error': 'Invalid range.'})
             response.status_code = 400
             return response
+        
+@app.get("/reset")
+def flushFlightData():
+    global flightData
+    flightData = [[], []]
+    response = jsonify({'message': 'Successfully flushed.'})
+    response.status_code = 200
+    return response
 
 def manipulateFlight(flights, latitudeRate, longitudeRate):
     DataManipulation.changeData(flights, latitudeRate, longitudeRate)
