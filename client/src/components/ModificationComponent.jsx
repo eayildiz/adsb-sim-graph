@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Radio, Input } from 'antd';
 import SliderComponent from './SliderComponent';
-import { blue } from '@mui/material/colors';
 
 const ModificationComponent = ({changeSettings, preSettingsValue, disabled, 
   toggleDisabled, changePreSettingsText, currentString, handleOpcode, 
@@ -13,12 +12,12 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
             <div className='ModificationBorder'>
               <div className='ModificationSettings'>
                 <Radio.Group onChange={changeSettings} value={preSettingsValue} style={{marginTop: 8}}>
-                  <Radio value={0} disabled={disabled} onClick={handleOpcode} style={{ color: 'white' }}>Find by ICAO Address</Radio>
-                  <Radio value={1} disabled={disabled} onClick={handleOpcode} style={{ color: 'white' }}>Find by Range</Radio>
+                  <Radio value={0} disabled={disabled} onClick={handleOpcode}>Find by Flight Name</Radio>
+                  <Radio value={1} disabled={disabled} onClick={handleOpcode}>Find by Range</Radio>
                 </Radio.Group>
         
                 {preSettingsValue === 0 ? 
-                  <Input placeholder="ICAO Address" className='FlightNameInput' disabled={disabled} onChange={handleFlightName}/> 
+                  <Input placeholder="Flight Name as Icao" className='FlightNameInput' disabled={disabled} onChange={handleFlightName}/> 
                 : 
                   <div className="RangeInputs">
                     <Input placeholder="Range in Nautical Mile (max 250)" disabled={disabled} onChange={handleBaseRange}/>
@@ -43,19 +42,15 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 handleLongSlider={handleLongSlider}
                 startSim={startSim}
                 />
-                <div style={{ alignContent: "center", color: "crimson", opacity: "100%"}}>
-                    Changing filters mid-simulation will cause a reset.
-                </div>
                 {!startSim ?
-                  <Button type="primary" style={{marginTop:"5%"}} disabled={!disabled} onClick={() => {
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={() => {
                     isStarted()
                     handleReset()
-                  }}>Begin Simulation</Button>  
+                  }}>Apply Changes</Button>  
                 :
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>End Simulation</Button>  
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>Stop Changes</Button>  
                 }
-                <p style={{ alignself: "center", marginTop: "25px"}}><span style={{ color: 'Red'}}>Red</span><span> represents the original trajectory.</span></p>
-                <p style={{ alignself: "center", marginTop: "-10px"}}><span style={{ color: '#1677ff'}}>Blue</span><span> represents the altered trajectory.</span></p>
+                
               </div>
             </div>
         </div>
