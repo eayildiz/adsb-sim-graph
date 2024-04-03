@@ -154,7 +154,7 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
         };
 
         fetchData()
-        const interval = setInterval(fetchData, 12000)
+        const interval = setInterval(fetchData, 10000)
 
         if(!startSim && entered){
             clearInterval(interval)
