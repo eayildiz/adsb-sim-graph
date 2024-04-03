@@ -90,6 +90,7 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                 try {
                     const response = await axios.post(requestString);
                     const data = response.data.flights;
+                    const elapsedTime = response.data.time
 
                     const geojsonFeatures = data.flatMap(flightGroup => {
                         return flightGroup.map(segment => {
@@ -100,11 +101,12 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                                     coordinates: [flight.longitude, flight.latitude]
                                 },
                                 properties: {
-                                    time: flight.time
+                                    time: elapsedTime
                                 }
                             }));
                         });
                     }).flat();
+                    console.log(geojsonFeatures)
 
                     setEntered(true)
 
