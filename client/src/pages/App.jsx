@@ -11,6 +11,8 @@ function App() {
   const [data, setData] = useState([])
   const [preSettingsText, setPreSettingsText] = useState("Revert Pre Settings")
   const [currentPage, setCurrentPage] = useState(0)
+  const [liveData, setLiveData] = useState([])
+  const [opcode, setOpcode] = useState(0)
 
   const currentString = preSettingsText === "Revert Pre Settings" ? "Apply Pre Settings" : "Revert Pre Settings";
 
@@ -34,6 +36,13 @@ function App() {
     setData(e);
   }
 
+  const handleOpcode = (e) => {
+    setOpcode(e.target.value)
+  }
+
+  const handleLiveData = (e) => {
+    setLiveData(e)
+  }
 
   return (
     <div className="App">
@@ -50,9 +59,13 @@ function App() {
       </div>
 
       <div className="ContentContainer">
-        {currentPage === 0 ? <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
+        {currentPage === 0 ? 
+        <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
         toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText} handleData={handleData}
-        /> : <GraphPage data={data}/>
+        handleOpcode={handleOpcode} opcode={opcode} handleLiveData={handleLiveData}
+        /> 
+        : 
+        <GraphPage data={data} liveData={liveData} opcode={opcode}/>
         }
       </div>
     </div>

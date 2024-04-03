@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Radio, Input } from 'antd';
-import Slider from '@mui/material/Slider';
 import SliderComponent from './SliderComponent';
 
 const ModificationComponent = ({changeSettings, preSettingsValue, disabled, 
   toggleDisabled, changePreSettingsText, currentString, handleOpcode, 
   handleBaseRange, handleBaseLat, handleBaseLong, 
-  handleLongSlider, handleLatSlider, isStarted, startSim, isFinished, handleFlightName}) => {
+  handleLongSlider, handleLatSlider, isStarted, startSim, isFinished, handleFlightName, handleReset}) => {
+
     return(
         <div className='ModificationContainer'>
             <div className='ModificationBorder'>
@@ -43,7 +43,10 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 startSim={startSim}
                 />
                 {!startSim ?
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isStarted}>Apply Changes</Button>  
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={() => {
+                    isStarted()
+                    handleReset()
+                  }}>Apply Changes</Button>  
                 :
                   <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>Stop Changes</Button>  
                 }
