@@ -12,12 +12,12 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
             <div className='ModificationBorder'>
               <div className='ModificationSettings'>
                 <Radio.Group onChange={changeSettings} value={preSettingsValue} style={{marginTop: 8}}>
-                  <Radio value={0} disabled={disabled} onClick={handleOpcode}>Find by ICAO Address</Radio>
-                  <Radio value={1} disabled={disabled} onClick={handleOpcode}>Find by Range</Radio>
+                  <Radio value={0} disabled={disabled} onClick={handleOpcode} style={{ color: 'white' }}>Find by ICAO Address</Radio>
+                  <Radio value={1} disabled={disabled} onClick={handleOpcode} style={{ color: 'white' }}>Find by Range</Radio>
                 </Radio.Group>
         
                 {preSettingsValue === 0 ? 
-                  <Input placeholder="Flight Name as Icao" className='FlightNameInput' disabled={disabled} onChange={handleFlightName}/> 
+                  <Input placeholder="ICAO Address" className='FlightNameInput' disabled={disabled} onChange={handleFlightName}/> 
                 : 
                   <div className="RangeInputs">
                     <Input placeholder="Range in Nautical Mile (max 250)" disabled={disabled} onChange={handleBaseRange}/>
@@ -42,8 +42,11 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 handleLongSlider={handleLongSlider}
                 startSim={startSim}
                 />
+                <div style={{ alignContent: "center", color: "crimson", opacity: "100%"}}>
+                    Changing filters mid-simulation will cause a reset.
+                </div>
                 {!startSim ?
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={() => {
+                  <Button type="primary" style={{marginTop:"5%"}} disabled={!disabled} onClick={() => {
                     isStarted()
                     handleReset()
                   }}>Begin Simulation</Button>  
