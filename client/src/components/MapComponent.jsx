@@ -98,6 +98,9 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                                 geometry: {
                                     type: 'Point',
                                     coordinates: [flight.longitude, flight.latitude]
+                                },
+                                properties: {
+                                    time: flight.time
                                 }
                             }));
                         });

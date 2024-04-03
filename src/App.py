@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
 flightData = [[], []]
+elapsedTime = 0
 
 @app.get("/")
 def homepage():
@@ -12,6 +13,7 @@ def homepage():
 @app.post("/")
 def simulateDataManipulation():
     global flightData
+    global elapsedTime
     # global parameters obtained through query parameters
     type = int(request.args.get("type"))
     lat_r = float(request.args.get("latr"))
@@ -32,7 +34,7 @@ def simulateDataManipulation():
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData[1].append(serialized_flights_new)
-            response = jsonify({'flights': flightData})
+            response = jsonify({'flights': flightData, 'time': elapsedTime})
             response.status_code = 200
             return response
         # return bad request if positions are invalid
@@ -40,6 +42,8 @@ def simulateDataManipulation():
             response = jsonify({'error': 'Invalid range.'})
             response.status_code = 400
             return response
+        finally:
+            elapsedTime += 10
     elif (type == 1):
         # receive positions through query parameters
         lat = float(request.args.get("lat"))
@@ -59,18 +63,22 @@ def simulateDataManipulation():
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData[1].append(serialized_flights_new)
             liveFlightData[1].append(serialized_flights_new)
-            response = jsonify({'flights': flightData, 'live': liveFlightData})
+            response = jsonify({'flights': flightData, 'live': liveFlightData, 'time': elapsedTime})
             response.status_code = 200
             return response
         except ValueError:
             response = jsonify({'error': 'Invalid range.'})
             response.status_code = 400
             return response
+        finally:
+            elapsedTime += 10
         
 @app.get("/reset")
 def flushFlightData():
     global flightData
+    global elapsedTime
     flightData = [[], []]
+    elapsedTime = 0
     response = jsonify({'message': 'Successfully flushed.'})
     response.status_code = 200
     return response
