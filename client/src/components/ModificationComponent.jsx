@@ -12,7 +12,7 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
             <div className='ModificationBorder'>
               <div className='ModificationSettings'>
                 <Radio.Group onChange={changeSettings} value={preSettingsValue} style={{marginTop: 8}}>
-                  <Radio value={0} disabled={disabled} onClick={handleOpcode}>Find by Flight Name</Radio>
+                  <Radio value={0} disabled={disabled} onClick={handleOpcode}>Find by ICAO Address</Radio>
                   <Radio value={1} disabled={disabled} onClick={handleOpcode}>Find by Range</Radio>
                 </Radio.Group>
         
@@ -46,9 +46,9 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                   <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={() => {
                     isStarted()
                     handleReset()
-                  }}>Apply Changes</Button>  
+                  }}>Begin Simulation</Button>  
                 :
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>Stop Changes</Button>  
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>End Simulation</Button>  
                 }
                 
               </div>

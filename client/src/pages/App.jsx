@@ -9,12 +9,12 @@ function App() {
   const [disabled, setDisabled] = useState(false)
   const [preSettingsValue, setPreSettingsValue] = useState(0)
   const [data, setData] = useState([])
-  const [preSettingsText, setPreSettingsText] = useState("Revert Pre Settings")
+  const [preSettingsText, setPreSettingsText] = useState("Change Filters")
   const [currentPage, setCurrentPage] = useState(0)
   const [liveData, setLiveData] = useState([])
   const [opcode, setOpcode] = useState(0)
 
-  const currentString = preSettingsText === "Revert Pre Settings" ? "Apply Pre Settings" : "Revert Pre Settings";
+  const currentString = preSettingsText === "Change Filters" ? "Set Filters" : "Change Filters";
 
   const toggleDisabled = () => {
     setDisabled(!disabled)
