@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Radio, Input } from 'antd';
 import SliderComponent from './SliderComponent';
+import { blue } from '@mui/material/colors';
 
 const ModificationComponent = ({changeSettings, preSettingsValue, disabled, 
   toggleDisabled, changePreSettingsText, currentString, handleOpcode, 
@@ -53,7 +54,8 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 :
                   <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>End Simulation</Button>  
                 }
-                
+                <p style={{ alignself: "center", marginTop: "25px"}}><span style={{ color: 'Red'}}>Red</span><span> represents the original trajectory.</span></p>
+                <p style={{ alignself: "center", marginTop: "-10px"}}><span style={{ color: '#1677ff'}}>Blue</span><span> represents the altered trajectory.</span></p>
               </div>
             </div>
         </div>
