@@ -1,5 +1,6 @@
 import DataManipulation
 import FlightFetcher
+from DataTypes import Plane
 from flask import Flask, request, render_template, jsonify
 
 app = Flask(__name__)
@@ -23,6 +24,8 @@ def simulateDataManipulation():
         # receive icao address through query parameter
         icao = request.args.get("icao")
         flights = FlightFetcher.getFlightByAddress(icao)
+        for flight in flights:
+            Plane.setTime(flight, elapsedTime)
         # return bad request if nothing is found
         if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
@@ -51,6 +54,8 @@ def simulateDataManipulation():
         rad = float(request.args.get("rad"))
         liveFlightData = [[], []]
         flights = FlightFetcher.getFlightsByBounds(lat, lon, rad)
+        for flight in flights:
+            Plane.setTime(flight, elapsedTime)
         if len(flights) == 0:
             response = jsonify({'error': 'No such flight(s) found.'})
             response.status_code = 400
