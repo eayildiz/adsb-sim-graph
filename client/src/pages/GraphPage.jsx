@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 
-const GraphPage = ({data, opcode, liveData}) => {
+const GraphPage = ({data, opcode, liveData, time}) => {
     
     const [liveDataWithId, setLiveDataWithId] = useState([])
     const [dataWithId, setDataWithId] = useState([])
@@ -14,15 +14,9 @@ const GraphPage = ({data, opcode, liveData}) => {
 
     const addIdToData = (data) => {
         return data.map((point, index) => {
-          return { ...point, id: index + 1 };
+          return { ...point[0], id: index + 1 , time: point[1]};
         });
     };
-
-    const addIdToLiveData = (data) => {
-      return data.map((point, index) => {
-        return { ...point, id: index + 1 };
-      });
-    }
 
     const calculateRange = () => {
       const values = dataWithId.map((item) => [item[0], item[1]]);
@@ -44,24 +38,7 @@ const GraphPage = ({data, opcode, liveData}) => {
     }
 
     useEffect(() => {
-      if(opcode == 1){
-        const liveGeojson = liveData.flatMap(flightGroup => {
-          return flightGroup.map(segment => {
-              return segment.map(flight => ({
-                  type: 'Feature',
-                  geometry: {
-                      type: 'Point',
-                      coordinates: [flight.longitude, flight.latitude]
-                  }
-              }));
-          });
-        }).flat();
-
-        const strippedCoordinates = liveGeojson.map(geojsonFeatures => geojsonFeatures.geometry.coordinates);
-        setLiveDataWithId(addIdToLiveData(strippedCoordinates))
-      }
-
-      const strippedCoordinates = data.map(data => data.geometry.coordinates);
+      const strippedCoordinates = data.map(data => [data.geometry.coordinates, data.properties.time]);
       setDataWithId(addIdToData(strippedCoordinates))
     },[data])
 
@@ -84,9 +61,10 @@ const GraphPage = ({data, opcode, liveData}) => {
 
       setRange(calculateRange())
 
+      console.log(dataWithId)
     },[dataWithId])
     
-    const formatTick = (value) => value.toFixed(3);
+    const formatTick = (value) => value.toFixed(1);
 
     return(
         <div className="GraphContainer">
@@ -94,17 +72,16 @@ const GraphPage = ({data, opcode, liveData}) => {
               <ResponsiveContainer width="85%" height="85%">
                 <ScatterChart width={600} height={600} margin={{ top: 20, right: 40, bottom: 40, left: 20,}} >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="1" type="number" name="Latitude" unit="°" 
-                  label={{value: "Latitude", position: 'insideBottom', offset: -20}} 
-                  domain={[range[3]*0.99, range[3]*1.01]} tickFormatter={formatTick}/>
+                  <XAxis dataKey="time" type="number" name="time" unit="s" 
+                  label={{value: "Time", position: 'insideBottom', offset: -20}} />
 
-                  <YAxis dataKey="0" type="number" name="Longitude" unit="°" 
-                  label={{value: "Longitude", position: 'insideTop', offset: -20}} 
-                  domain={[range[2]*0.99, range[2]*1.01]} tickFormatter={formatTick}/>
+                  <YAxis dataKey="1" type="number" name="Latitude" unit="°" 
+                  label={{value: "Latitude", position: 'insideTop', offset: -20}} 
+                  domain={[range[1]*0.99, range[3]*1.01]} tickFormatter={formatTick}/>
                   <Tooltip cursor={{ strokeDasharray: '3 3' }} />
 
-                  <Scatter name="Original" data={originalLive} fill="#1677ff" />
-                  <Scatter name="Modified" data={modifiedLive} fill="#ff0000" />
+                  <Scatter name="Original" data={original} fill="#1677ff" />
+                  <Scatter name="Modified" data={modified} fill="#ff0000" />
                 </ScatterChart>
               </ResponsiveContainer>
             </div>
@@ -113,14 +90,13 @@ const GraphPage = ({data, opcode, liveData}) => {
               <ResponsiveContainer width="85%" height="85%">
                 <ScatterChart width={600} height={600} margin={{ top: 20, right: 40, bottom: 40, left: 20,}} >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="1" type="number" name="Latitude" unit="°" label={{value: "Latitude", position: 'insideBottom', offset: -20}} 
-                  domain={[range[1]*0.99, range[3]*1.01]} tickFormatter={formatTick}/>
+                  <XAxis dataKey="time" type="number" name="Time" unit="s" label={{value: "Time", position: 'insideBottom', offset: -20}}/>
                   <YAxis dataKey="0" type="number" name="Longitude" unit="°" label={{value: "Longitude", position: 'insideTop', offset: -20}} 
                   domain={[range[0]*0.99, range[2]*1.01]} tickFormatter={formatTick}/>
                   <Tooltip cursor={{ strokeDasharray: '3 3' }} />
 
 
-                  <Scatter name="Original" data={original} fill="#1677ff" />
+                  <Scatter name="Original" data={original} fill="#1677ff"/>
                   <Scatter name="Modified" data={modified} fill="#ff0000" />
                 </ScatterChart>
               </ResponsiveContainer>

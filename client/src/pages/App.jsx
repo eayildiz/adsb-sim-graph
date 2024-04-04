@@ -13,11 +13,17 @@ function App() {
   const [currentPage, setCurrentPage] = useState(0)
   const [liveData, setLiveData] = useState([])
   const [opcode, setOpcode] = useState(0)
+  const [time, setTime] = useState(0)
 
   const currentString = preSettingsText === "Change Filters" ? "Set Filters" : "Change Filters";
 
   const toggleDisabled = () => {
     setDisabled(!disabled)
+  }
+
+  const handleTime = (e) => {
+    console.log(e)
+    setTime(e)
   }
 
   const changeSettings = (e) => {
@@ -46,28 +52,19 @@ function App() {
 
   return (
     <div className="App">
-      <div className="HeaderContainer">
-        <div className='HeaderList'>
-          <div className="CustomButton" onClick={() => changeCurrentPage(0)}>Simulation</div>
-          <div className="CustomButton" onClick={() => changeCurrentPage(1)}>Graph</div>
-          <div className="CustomButton" onClick={() => {
-            window.open('https://github.com/TOBB-ETU-BIL481-SPRING-24/CyberCoders', '_blank');
-          }}>
-            <img src={GithubLogo} style={{width:"30%"}}/>
-          </div>
+
+      <div style={{display:"flex", flexDirection:"column"}}>
+        <div className="ContentContainer">
+          <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
+          toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText} handleData={handleData}
+          handleOpcode={handleOpcode} opcode={opcode} handleLiveData={handleLiveData} handleTime={handleTime} time={time} data={data} liveData={liveData}/>
+        </div>
+
+        <div className='ContentContainer'>
+          <GraphPage data={data} liveData={liveData} opcode={opcode} time={time}/>
         </div>
       </div>
 
-      <div className="ContentContainer">
-        {currentPage === 0 ? 
-        <SimulationPage disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
-        toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText} handleData={handleData}
-        handleOpcode={handleOpcode} opcode={opcode} handleLiveData={handleLiveData}
-        /> 
-        : 
-        <GraphPage data={data} liveData={liveData} opcode={opcode}/>
-        }
-      </div>
     </div>
   );
 }

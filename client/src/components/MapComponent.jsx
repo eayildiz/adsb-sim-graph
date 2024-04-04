@@ -3,7 +3,7 @@ import maplibregl from 'maplibre-gl';
 import React, {useState, useEffect, useRef} from 'react';
 
 const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, 
-    longSlide, startSim, flightName, handleData, reset, handleLiveData}) => {
+    longSlide, startSim, flightName, handleData, reset, handleLiveData, handleTime, time}) => {
 
     const mapContainer = useRef(null);
     
@@ -78,7 +78,6 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
         if (!mapInstance) return;
 
         const fetchData = async () => {
-
             if(reset){
                 const response = await axios.get("/reset");
                 reset = false;
@@ -90,7 +89,6 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                 try {
                     const response = await axios.post(requestString);
                     const data = response.data.flights;
-                    const elapsedTime = response.data.time
 
                     const geojsonFeatures = data.flatMap(flightGroup => {
                         return flightGroup.map(segment => {
@@ -101,12 +99,11 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                                     coordinates: [flight.longitude, flight.latitude]
                                 },
                                 properties: {
-                                    time: elapsedTime
+                                    time: flight.time
                                 }
                             }));
                         });
                     }).flat();
-                    console.log(geojsonFeatures)
 
                     setEntered(true)
 
@@ -120,7 +117,6 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                 } catch (err) {
                     //console.error("Error While Getting Data", err);
                 }
-
             }
             
             if(opcode == 1 && startSim == 1){
@@ -128,8 +124,9 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                 
                 try {
                     const response = await axios.post(requestString);
-                    handleLiveData(response.data.live)
                     const data = response.data.flights;
+                    
+                    //handleTime(elapsedTime)
 
                     const geojsonFeatures = data.flatMap(flightGroup => {
                         return flightGroup.map(segment => {
@@ -138,6 +135,9 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide,
                                 geometry: {
                                     type: 'Point',
                                     coordinates: [flight.longitude, flight.latitude]
+                                },
+                                properties: {
+                                    time: flight.time
                                 }
                             }));
                         });

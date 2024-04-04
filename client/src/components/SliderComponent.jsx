@@ -5,7 +5,7 @@ import Slider from '@mui/material/Slider';
 
 const SliderComponent = ({disabled, handleLongSlider, handleLatSlider, startSim}) => {
     return(
-        <div style={{width: "100%", marginTop: "5%", visibility: startSim ? "hidden": "visible"}}>
+        <div style={{width: "100%", marginTop: "5%"}}>
             <div className='SliderCard'>
               <p>Latitude</p>
               <Slider aria-label="Default" 
@@ -15,7 +15,7 @@ const SliderComponent = ({disabled, handleLongSlider, handleLatSlider, startSim}
               max={1}
               min={-1}  
               step={0.01}
-              disabled={disabled} 
+              disabled={disabled || startSim} 
               onChange={handleLatSlider}
               style={{width:"80%"}}/>
             </div>
@@ -29,7 +29,7 @@ const SliderComponent = ({disabled, handleLongSlider, handleLatSlider, startSim}
               min={-1} 
               max={1} 
               step={0.01}
-              disabled={disabled}
+              disabled={disabled || startSim}
               onChange={handleLongSlider} 
               style={{width:"80%"}}/>
             </div>
