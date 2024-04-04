@@ -37,7 +37,7 @@ def simulateDataManipulation():
             manipulateFlight(flights, lat_r, lng_r)
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData[1].append(serialized_flights_new)
-            response = jsonify({'flights': flightData, 'time': elapsedTime})
+            response = jsonify({'flights': flightData})
             response.status_code = 200
             return response
         # return bad request if positions are invalid
@@ -68,7 +68,7 @@ def simulateDataManipulation():
             serialized_flights_new = [flight.__json__() for flight in flights]
             flightData[1].append(serialized_flights_new)
             liveFlightData[1].append(serialized_flights_new)
-            response = jsonify({'flights': flightData, 'live': liveFlightData, 'time': elapsedTime})
+            response = jsonify({'flights': flightData, 'live': liveFlightData})
             response.status_code = 200
             return response
         except ValueError:
