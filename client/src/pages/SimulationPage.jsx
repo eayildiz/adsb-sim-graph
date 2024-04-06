@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { Button, Radio, Input } from 'antd';
+import React, { useState } from 'react';
 import MapComponent from '../components/MapComponent';
 import ModificationComponent from '../components/ModificationComponent';
 
 
-const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisabled, changePreSettingsText, currentString, handleData}) => {
+const SimulationPage = ({disabled, preSettingsValue, changeSettings, 
+  toggleDisabled, changePreSettingsText, currentString, 
+  handleData, handleOpcode, opcode, handleLiveData, handleTime, time, data, liveData}) => {
     
     const [latitudeRangeSlider, setLatitudeRangeSlider] = useState(0)
     const [longitudeSliderValue, setLongitudeSliderValue] = useState(0)
@@ -14,11 +15,8 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
     const [baseRange, setBaseRange] = useState(0)
     const [baseLatitude, setBaseLatitude] = useState(0)
     const [baseLongitude, setBaseLongitude] = useState(0)
-    const [opcode, setOpcode] = useState(0)
     const [startSim, setStartSim] = useState(false)
-
-
-    const handleOpcode = (e) => { setOpcode(e.target.value) }
+    const [resetData, setResetData] = useState(false)
 
     const handleBaseRange = (e) => { 
       const value = parseFloat(e.target.value);
@@ -67,20 +65,27 @@ const SimulationPage = ({disabled, preSettingsValue, changeSettings, toggleDisab
       setStartSim(false)
     }
 
+
+    const handleReset = () => {
+      if(!resetData){
+        setResetData(true)
+      }
+    }
+
     return(
         <div className="SimContainer">
             <ModificationComponent disabled={disabled} currentString={currentString} preSettingsValue={preSettingsValue}
                 toggleDisabled={toggleDisabled} changeSettings={changeSettings} changePreSettingsText={changePreSettingsText}
                 handleOpcode={handleOpcode} handleBaseRange={handleBaseRange} handleBaseLat={handleBaseLatitude} handleBaseLong={handleBaseLongitude}
-                handleLatSlider={handleLatSlider} handleLongSlider={handleLongSlider} 
-                startSim={startSim} isStarted={isStarted} isFinished={isFinished} handleFlightName={handleFlightName}
+                handleLatSlider={handleLatSlider} handleLongSlider={handleLongSlider}
+                startSim={startSim} isStarted={isStarted} isFinished={isFinished} handleFlightName={handleFlightName} handleReset={handleReset}
             />
 
             <div className="MapContainer">
               <div className="MapBorder">
                 <MapComponent baseRange={baseRange} baseLat={baseLatitude} flightName={flightName} startSim={startSim}
-                baseLong={baseLongitude} opcode={opcode} 
-                latSlide={latitudeRangeSlider} longSlide={longitudeSliderValue} handleData={handleData}/>
+                baseLong={baseLongitude} opcode={opcode} reset={resetData} handleLiveData={handleLiveData}
+                latSlide={latitudeRangeSlider} longSlide={longitudeSliderValue} handleData={handleData} handleTime={handleTime}/>
               </div>
             </div>
         </div>

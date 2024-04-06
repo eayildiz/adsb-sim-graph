@@ -10,7 +10,7 @@ def getFlightsByBounds(latitude: float, longitude: float, radius: float):
             return flights
         for aircraft in aircrafts:
             if ('lat' in aircraft and 'lon' in aircraft and 'alt_geom' in aircraft):
-                flight = Plane(aircraft['hex'], aircraft['lat'], aircraft['lon'])
+                flight = Plane(aircraft['hex'], aircraft['lat'], aircraft['lon'], 0)
                 flights.append(flight)
         return flights
     except requests.exceptions.JSONDecodeError:
@@ -25,7 +25,7 @@ def getFlightByAddress(icaoAddress: str):
         if (len(aircraft) == 0):
             return flights
         if ('lat' in aircraft[0] and 'lon' in aircraft[0]):
-            flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'])
+            flight = Plane(aircraft[0]['hex'], aircraft[0]['lat'], aircraft[0]['lon'], 0)
             flights.append(flight)
         return flights
     except requests.exceptions.JSONDecodeError:

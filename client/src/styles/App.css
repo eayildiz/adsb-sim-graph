@@ -1,64 +1,29 @@
 .App {
   background-size: cover;
   background-color: #3f3f3f;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.HeaderContainer {
-  display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: #1d1d1d;
-  width: 100vw;
-  height: 10vh;
+  overflow: hidden;
 }
-
-.HeaderList {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
-  width: 30%;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  border-radius: 15px;
-  margin-left: 2%;
-}
-
-
-.CustomButton {
-  display: flex;
-  justify-content: center;
-  color: white;
-  align-items: center;
-  height: 100%;
-  width: 20%;
-  transition: background-color 0.2s;
-}
-.CustomButton:hover {
-  background-color: #1677ff;
-}
-
 
 .ContentContainer {
   display: flex;
   flex: 1;
   width: 100vw;
+  height: 100vh;
   color: white;
+  flex-direction: column;
 }
 
 .SimContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  height: 100%;
+  height: 90vh;
   width: 100%;
 }
 
@@ -154,9 +119,8 @@
   align-items: center;
   flex-wrap: wrap;
   margin-top: 2.5%;
-  height: 90%;
+  height: 100vh;
   width: 100%;
-
 }
 
 .GraphCardBorder{
@@ -166,24 +130,5 @@
   background-color: #282828;
   height: 95%;
   width: 45%;
-  border-radius: 25px;
-}
-
-.AboutUsContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.AboutUsCard{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background-color: #282828;
-  width: 80%;
-  height: 60%;
   border-radius: 25px;
 }

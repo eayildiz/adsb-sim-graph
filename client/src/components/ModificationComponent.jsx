@@ -1,19 +1,19 @@
 import React from 'react';
 import { Button, Radio, Input } from 'antd';
-import Slider from '@mui/material/Slider';
 import SliderComponent from './SliderComponent';
 
 const ModificationComponent = ({changeSettings, preSettingsValue, disabled, 
   toggleDisabled, changePreSettingsText, currentString, handleOpcode, 
   handleBaseRange, handleBaseLat, handleBaseLong, 
-  handleLongSlider, handleLatSlider, isStarted, startSim, isFinished, handleFlightName}) => {
+  handleLongSlider, handleLatSlider, isStarted, startSim, isFinished, handleFlightName, handleReset}) => {
+
     return(
         <div className='ModificationContainer'>
             <div className='ModificationBorder'>
               <div className='ModificationSettings'>
                 <Radio.Group onChange={changeSettings} value={preSettingsValue} style={{marginTop: 8}}>
-                  <Radio value={0} disabled={disabled} onClick={handleOpcode}>Find by Flight Name</Radio>
-                  <Radio value={1} disabled={disabled} onClick={handleOpcode}>Find by Range</Radio>
+                  <Radio value={0} disabled={disabled} onClick={handleOpcode} style={{color: "white"}}>Find by Flight Name</Radio>
+                  <Radio value={1} disabled={disabled} onClick={handleOpcode} style={{color: "white"}}>Find by Range</Radio>
                 </Radio.Group>
         
                 {preSettingsValue === 0 ? 
@@ -43,9 +43,12 @@ const ModificationComponent = ({changeSettings, preSettingsValue, disabled,
                 startSim={startSim}
                 />
                 {!startSim ?
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isStarted}>Apply Changes</Button>  
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={() => {
+                    isStarted()
+                    handleReset()
+                  }}>Begin Simulation</Button>  
                 :
-                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>Stop Changes</Button>  
+                  <Button type="primary" style={{marginTop:"25%"}} disabled={!disabled} onClick={isFinished}>Stop Simulation</Button>  
                 }
                 
               </div>

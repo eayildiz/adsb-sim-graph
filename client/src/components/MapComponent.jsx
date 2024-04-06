@@ -2,12 +2,17 @@ import axios from "axios";
 import maplibregl from 'maplibre-gl';
 import React, {useState, useEffect, useRef} from 'react';
 
-const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide, startSim, flightName, handleData}) => {
+const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, 
+    longSlide, startSim, flightName, handleData, reset, handleLiveData, handleTime, time}) => {
+
     const mapContainer = useRef(null);
     
     const [mapInstance, setMapInstance] = useState(null)
     const [entered, setEntered] = useState(false)
     const [features,setFeatures] = useState([])
+    const [original, setOriginal] = useState([])
+    const [modified, setModified] = useState([])
+
     const [viewState, setViewState] = useState({
         center: [0, 0],
         zoom: 2
@@ -22,8 +27,16 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
           type: 'geojson',
           data: {
             type: 'FeatureCollection',
-            features: features
+            features: original
           }
+        });
+
+        mapInstance.addSource('modified-data', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: modified
+            }
         });
         
         mapInstance.addLayer({
@@ -36,6 +49,17 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
             'circle-opacity': 0.8,
           }
         });
+
+        mapInstance.addLayer({
+            id: 'modified-data',
+            type: 'circle',
+            source: 'modified-data',
+            paint: {
+              'circle-color': '#ff0000',
+              'circle-radius': 6,
+              'circle-opacity': 0.8,
+            }
+        });
       }
       
     useEffect( () => {
@@ -47,16 +71,19 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
 
         setMapInstance(map)
         
-        return () => {
-            map.remove()
-        };
+        return () => { map.remove() };
     }, []);
 
     useEffect(() => {
         if (!mapInstance) return;
 
         const fetchData = async () => {
-            if(opcode == 0){
+            if(reset){
+                const response = await axios.get("/reset");
+                reset = false;
+            }
+
+            if(opcode == 0 && startSim == 1){
                 const requestString = `?type=${opcode}&latr=${latSlide}&lngr=${longSlide}&icao=${flightName}`
 
                 try {
@@ -64,43 +91,66 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
                     const data = response.data.flights;
 
                     const geojsonFeatures = data.flatMap(flightGroup => {
-                        return flightGroup.map(flight => {
-                            return {
+                        return flightGroup.map(segment => {
+                            return segment.map(flight => ({
                                 type: 'Feature',
                                 geometry: {
                                     type: 'Point',
                                     coordinates: [flight.longitude, flight.latitude]
+                                },
+                                properties: {
+                                    time: flight.time
                                 }
-                            };
+                            }));
                         });
-                    });
+                    }).flat();
+
                     setEntered(true)
+
+                    const midpoint = geojsonFeatures.length / 2;
+                    const firstHalf = geojsonFeatures.slice(0, midpoint);
+                    const secondHalf = geojsonFeatures.slice(midpoint);
+
+                    setOriginal(firstHalf)
+                    setModified(secondHalf)
                     updateFeatures(geojsonFeatures);
                 } catch (err) {
                     //console.error("Error While Getting Data", err);
                 }
-
             }
             
-            if(opcode == 1){
+            if(opcode == 1 && startSim == 1){
                 const requestString = `?type=${opcode}&latr=${latSlide}&lngr=${longSlide}&lat=${baseLat}&lon=${baseLong}&rad=${baseRange}`
                 
                 try {
                     const response = await axios.post(requestString);
                     const data = response.data.flights;
                     
+                    //handleTime(elapsedTime)
+
                     const geojsonFeatures = data.flatMap(flightGroup => {
-                        return flightGroup.map(flight => {
-                            return {
+                        return flightGroup.map(segment => {
+                            return segment.map(flight => ({
                                 type: 'Feature',
                                 geometry: {
                                     type: 'Point',
                                     coordinates: [flight.longitude, flight.latitude]
+                                },
+                                properties: {
+                                    time: flight.time
                                 }
-                            };
+                            }));
                         });
-                    });
+                    }).flat();
+
                     setEntered(true)
+
+                    const midpoint = geojsonFeatures.length / 2;
+                    const firstHalf = geojsonFeatures.slice(0, midpoint);
+                    const secondHalf = geojsonFeatures.slice(midpoint);
+
+                    setOriginal(firstHalf)
+                    setModified(secondHalf)
                     updateFeatures(geojsonFeatures);
                 } catch (err) {
                     //console.error("Error While Getting Data", err);
@@ -109,15 +159,14 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
         };
 
         fetchData()
-        const interval = setInterval(fetchData, 8000)
+        const interval = setInterval(fetchData, 10000)
 
         if(!startSim && entered){
             clearInterval(interval)
             setEntered(false)
         }
 
-        return (() => {
-            clearInterval(interval)})
+        return (() => { clearInterval(interval) })
     }, [startSim, opcode, mapInstance]);
 
     useEffect(() => {
@@ -125,15 +174,20 @@ const MapComponent = ({opcode ,baseRange, baseLat, baseLong, latSlide, longSlide
             return;
         } 
 
-        if (!mapInstance.getSource('dynamic-data')) {
+        if (!mapInstance.getSource('dynamic-data') && !mapInstance.getSource('modified-data') ) {
             addSourceAndLayer()
             handleData(features)
         } else {
-            console.log(features)
             mapInstance.getSource('dynamic-data').setData({
                 type: 'FeatureCollection',
-                features: features
+                features: original
             });
+
+            mapInstance.getSource('modified-data').setData({
+                type: 'FeatureCollection',
+                features: modified
+            });
+
             handleData(features)
         }
     }, [features]);
