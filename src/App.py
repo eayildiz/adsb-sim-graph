@@ -2,8 +2,10 @@ import DataManipulation
 import FlightFetcher
 from DataTypes import Plane
 from flask import Flask, request, render_template, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__, static_folder="../client/build")
+CORS(app)
 flightData = [[], []]
 elapsedTime = 0
 
