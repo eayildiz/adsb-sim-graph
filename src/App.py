@@ -3,7 +3,7 @@ import FlightFetcher
 from DataTypes import Plane
 from flask import Flask, request, render_template, jsonify
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../client/build")
 flightData = [[], []]
 elapsedTime = 0
 
